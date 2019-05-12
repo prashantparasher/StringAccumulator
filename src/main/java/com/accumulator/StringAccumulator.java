@@ -1,75 +1,55 @@
 package com.accumulator;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+
+import com.accumulator.exception.NegativeNumberException;
 
 // Other Options to match the solution to requirements 
-// 1. Guava Splitter API 
-// 2. Instead of blacklisting the delimiters , we can whitelist the non-word chars
+// 1. Technically Guava Splitter API suits also suits here 
+
+// 2. as for Functional approach Instead of blacklisting the delimiters , we can whitelist the non-word chars
+
 
 public class StringAccumulator {
+	
+	NegativeNumberException negNbrExp = new NegativeNumberException();
+	
+	DelimitedString delimitedStr = new DelimitedString();
+
 	public static void main(String[] args) {
 		try {
-			System.out.println(new StringAccumulator().addString("//***|%%\n1***2%%3"));
+			System.out.println(new StringAccumulator().addString("//;\n-1;-2;3"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public String addString(String nbrString) throws Exception {
+	public String addString(String nbrDelimitedString) throws Exception {
 
 		int sum = 0;
-		List<Integer> negativeNbrList = new ArrayList<Integer>();
 
-		String[] nbrArray = null;
-		
-		if (nbrString.indexOf("//") == 0) {
-			//For the complex delimiters 
-			String[] delimString = nbrString.split("\n");
-			
-			String delimiters = delimString[0].substring(2);
-
-			// String[] delimitersArray =
-			// Arrays.asList(delimiters.split("\\|")).stream().map(s ->
-			// s.substring(0)).toArray(String[]::new);
-
-			// String test =
-			// Arrays.asList(delimiters.split("\\|")).stream().collect(Collectors.joining("|","[","]+"));
-
-			String test = "[" + delimiters + "]+";
-			
-			nbrArray = delimString[1].split(test);
-			
-		} else {
-			//For the simple case of delimiters 
-			nbrArray = nbrString.split("[,|\n]+");
-		}
+		String[] nbrArray = delimitedStr.processDelimitedString(nbrDelimitedString);
 
 		for (int i = 0; i < nbrArray.length; i++) {
-			
+
 			int nbr = Integer.parseInt(nbrArray[i]);
-			
+
 			if (nbr > 0 && nbr < 1000) {
-				
+
 				sum = sum + nbr;
-				
+
 			} else {
-				
-				negativeNbrList.add(nbr);
-				
+
+				negNbrExp.addNegativeNumber(nbr);
+
 			}
 
 		}
 
-		if (negativeNbrList.size() > 1) {
-			
-			System.out.println("Negative Number List " + negativeNbrList);
-			
-			throw new Exception("Negative Numbers not allowed in the input");
+		if (negNbrExp.getNegativeNbrCount() > 1) {
+
+			throw new NegativeNumberException(negNbrExp.getNegativeNbrList());
 		}
-		
+
 		return String.valueOf(sum);
 	}
 }
