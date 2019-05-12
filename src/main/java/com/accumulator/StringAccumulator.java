@@ -24,8 +24,11 @@ public class StringAccumulator {
 		List<Integer> negativeNbrList = new ArrayList<Integer>();
 
 		String[] nbrArray = null;
+		
 		if (nbrString.indexOf("//") == 0) {
+			//For the complex delimiters 
 			String[] delimString = nbrString.split("\n");
+			
 			String delimiters = delimString[0].substring(2);
 
 			// String[] delimitersArray =
@@ -36,25 +39,37 @@ public class StringAccumulator {
 			// Arrays.asList(delimiters.split("\\|")).stream().collect(Collectors.joining("|","[","]+"));
 
 			String test = "[" + delimiters + "]+";
+			
 			nbrArray = delimString[1].split(test);
+			
 		} else {
+			//For the simple case of delimiters 
 			nbrArray = nbrString.split("[,|\n]+");
 		}
 
 		for (int i = 0; i < nbrArray.length; i++) {
+			
 			int nbr = Integer.parseInt(nbrArray[i]);
+			
 			if (nbr > 0 && nbr < 1000) {
+				
 				sum = sum + nbr;
+				
 			} else {
+				
 				negativeNbrList.add(nbr);
+				
 			}
 
 		}
 
 		if (negativeNbrList.size() > 1) {
+			
 			System.out.println("Negative Number List " + negativeNbrList);
+			
 			throw new Exception("Negative Numbers not allowed in the input");
 		}
+		
 		return String.valueOf(sum);
 	}
 }
