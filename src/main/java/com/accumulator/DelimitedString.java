@@ -6,13 +6,14 @@ public class DelimitedString {
 	private static final String PREFIX_REGEX = "[";
 	private static final String SUFFIX_REGEX = "]+";
 	private static final String DEFAULT_REGEX_PATTERN = "[,|\n]+";
+	private static final String DELIMITER_OFFSET = "//";
 
 	private DelimitedOperation getNumberListMultipleDynamicDelimiter = (String delimiterAndNbrList) -> {
 		// For the multiple delimiters
 
 		String[] delimiterNbrArray = delimiterAndNbrList.split(NEWLINE);
 
-		String multipleDelimiter = delimiterNbrArray[0].substring(2);
+		String multipleDelimiter = delimiterNbrArray[0].substring(DELIMITER_OFFSET.length());
 
 		String regexPattern = PREFIX_REGEX + multipleDelimiter + SUFFIX_REGEX;
 
@@ -35,7 +36,7 @@ public class DelimitedString {
 
 	public String[] processDelimitedString(String nbrString) {
 		
-		if (nbrString.startsWith("//")) {
+		if (nbrString.startsWith(DELIMITER_OFFSET)) {
 			//For the multiple dynamic Delimiters 
 			return operate(nbrString, getNumberListMultipleDynamicDelimiter);
 
