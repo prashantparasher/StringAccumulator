@@ -8,6 +8,7 @@ import com.accumulator.exception.NegativeNumberException;
 
 // 2. as for Functional approach Instead of blacklisting the delimiters , we can whitelist the non-word chars
 
+// Assumption that input will be integers 
 
 public class StringAccumulator {
 	
@@ -17,6 +18,7 @@ public class StringAccumulator {
 
 	public static void main(String[] args) {
 		try {
+			
 			System.out.println(new StringAccumulator().addString("//;\n-1;-2;3"));
 		} catch (Exception e) {
 			e.printStackTrace();
